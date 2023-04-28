@@ -1,0 +1,85 @@
+<template>
+    <template if:true={singleAccount}>
+
+
+        <lightning-card title="Create DCF Without PFI">
+
+            <div if:true={isSaving} class="slds-is-relative">
+                <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+            </div>
+
+
+            <lightning-record-edit-form density="comfy" object-api-name={objectName} 
+                onsuccess={handleSuccess} onerror={handleError}>      
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Revenues_in_year_1__c" value={revenue}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Project__c" value={recordId}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Lifetime__c" value={ltime} onchange={handleLifetime}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Initial_Investment__c" value={initial}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Depreciation_Method__c" value={Depre}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Tax_Credit__c" value={TaxC}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Other_invest_non_depreciable__c" value={OtherInv}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="DCF_With_PFI__c" value={checkedFlag}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Opportunity_Cost_Rate__c" value={opporcost}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Var_Expenses_as_of_Rev__c" value={VarExpe}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Discount_Rate_Approach__c" value={DiscountRate}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Fixed_expenses_in_year_1__c" value={FixedExpe}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Tax_rate_on_net_income__c" value={Taxrate}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Discount_Rate__c" value={Disrate}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Debt_Ratio__c" value={DebtR}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="Cost_Of_Borrowing__c" value={costOfB}></lightning-input-field>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-input-field field-name="CurrencyIsoCode"></lightning-input-field>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                        
+                            <div class="slds-align--absolute-center">
+                                <lightning-button type="cancel" label="Cancel" class="slds-m-right_small"
+                                    onclick={closeAction}></lightning-button>
+                              
+                                    <lightning-button type="submit" variant="brand" label="Save"
+                                        ></lightning-button>
+                            </div>
+            </lightning-record-edit-form>
+        </lightning-card>
+    </template>
+
+    <template if:false={singleAccount}>
+        <lightning-flow if:false={singleAccount} flow-api-name='DCF_without_PFI'
+            flow-input-variables={inputVariables} >
+        </lightning-flow>
+    </template>
+</template>

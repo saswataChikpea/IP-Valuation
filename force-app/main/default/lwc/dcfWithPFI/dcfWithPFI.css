@@ -1,0 +1,62 @@
+.slds-box {
+    border: 4px solid rgb(191, 191, 246);
+    
+}
+
+.slds-badge{
+  background-color: rgb(159, 159, 226);
+  font-size: 15px;
+}
+.slds-table thead tr td{
+
+    background: hsl(256, 61%, 86%);
+    font-weight:bold;
+
+}
+.projtable tbody tr td{
+
+    background: hsl(62, 97%, 55%);
+
+}
+
+.discountRateUsed{
+
+    background: hsl(30, 96%, 58%);
+
+}
+/* .table1 tbody trhover {background-color: coral;} */
+
+
+.box1{
+    
+
+}
+
+/* .table1 tbody tr td:hover {
+    background-color: #ffff99;
+  } */
+
+.table1 thead tr th{
+    background: hsl(241, 83%, 49%);
+    
+}
+
+
+.title2{
+
+    color: blue;
+}
+/* .slds-table table>thead .slds-cell-fixed.slds-has-button-menu, .slds-table table>thead .slds-cell-fixed.slds-has-button-menu:hover{
+    background: rgb(235, 138, 10);
+  } */
+
+  .slds-table thead tr th{
+    font-weight:bold;
+  }
+
+  .slds-table tbody tr th{
+    font-weight:bold;
+  }
+  .infos{
+    background: hsl(157, 53%, 74%);
+  }

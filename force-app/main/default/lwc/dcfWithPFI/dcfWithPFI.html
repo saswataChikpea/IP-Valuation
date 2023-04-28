@@ -1,0 +1,971 @@
+<template>
+    <lightning-card title="DCF Calculation" icon-name="utility:connected_apps">
+        
+        <div class="slds-grid infos slds-grid_vertical">
+            <div class="slds-col">
+                <div class="slds-grid">
+                    <div class="slds-col slds-align_absolute-center">
+                        <h1>
+                            <b> Project Name :</b> 
+                            <lightning-button variant="base" label={projName} onclick={navigateToProjectPage} class="slds-m-left_x-small">
+                            </lightning-button>
+                        </h1>
+                    </div>
+                    <div class="slds-col slds-align_absolute-center">
+                        <h1>
+                            <b> DCF :</b> 
+                            <lightning-button variant="base" label={dcfName} onclick={navigateToDCFPage} class="slds-m-left_x-small">
+                            </lightning-button>
+                        </h1>
+                    </div>
+                    <div class="slds-col slds-align_absolute-center">
+                        <h1>
+                            <b> PFI :</b> 
+                            <lightning-button variant="base" label={ipFactor} class="slds-m-left_x-small">
+                            </lightning-button>
+                        </h1>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+        <br>
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col">
+                <div class="slds-p-left_x-large">
+                    <div class="slds-box">
+                        <span>
+                            <table class="slds-table projtable slds-table_cell-buffer slds-table_bordered"
+                                aria-label="Initial Investment" id="intinv">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col">
+                                            <div class="titile1" title="Initial Investment">Initial Investment
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class=""></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Initial Investment
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div class="slds-truncate">{currencyType} &nbsp;<lightning-formatted-number
+                                                value={InitialInv}></lightning-formatted-number></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Opportunity cost (if any)=
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div class="slds-truncate">{currencyType} &nbsp;<lightning-formatted-number
+                                                value={oppCost}></lightning-formatted-number></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Lifetime of the investment
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div class="slds-truncate">{Lifetime}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Salvage Value at end of project=
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div class="slds-truncate">{currencyType} &nbsp;<lightning-formatted-number
+                                                value={SvgEndofPrj}></lightning-formatted-number></div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Deprec. method(1:St.line;2:DDB)=
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div class="slds-truncate">{DepreciationMethod}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Tax Credit (if any )=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{TaxCredit}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Other invest.(non-depreciable)=
+                                            </div>
+                                        </th>
+                                        <td data-label="Other invest.(non-depreciable)">
+                                            <div class="slds-truncate">{currencyType} &nbsp;<lightning-formatted-number
+                                                value={OtherInv}></lightning-formatted-number></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
+                    </div>
+                    <div class="slds-p-top_x-large">
+                        <div class="slds-box">
+                            <table class="slds-table projtable slds-table_cell-buffer slds-table_bordered"
+                                aria-label="Example default base table of Opportunities">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="WORKING CAPITAL">WORKING CAPITAL
+                                            </div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate"></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Initial Investment in Work. Cap=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{currencyType} &nbsp;{IntInvinWC}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Working Capital as % of Rev=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{WCasPercRev}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Salvageable fraction at end=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{slvgFracAtTheEnd}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <div class="slds-p-left_x-large">
+                    <div class="slds-box">
+                        <span>
+                            <table class="slds-table projtable slds-table_cell-buffer slds-table_bordered"
+                                aria-label="Example default base table of Opportunities">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Account Name">CASHFLOW DETAILS</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate"></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Revenues in year 1=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{currencyType} &nbsp;{revInYr1}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Var. Expenses as % of Rev=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{varExpasPercofRev}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Fixed expenses in year 1= 
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{fixedExpInYr1}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                Tax rate on net income= 
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{taxRateOnNetInc}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </span>
+                    </div>
+                    If you do not have the breakdown of fixed and variable
+                    expenses, input the entire expense as a % of revenues.
+                </div>
+            </div>
+            <div class="slds-col">
+                <div class="slds-p-right_x-large">
+
+
+                    <div class="slds-box">
+                        <span>
+                            <table class="slds-table projtable slds-table_cell-buffer slds-table_bordered"
+                                aria-label="Example default base table of Opportunities">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="DISCOUNT RATE">DISCOUNT RATE</div>
+                                        </th>
+                                        <th class="" scope="col">
+                                            <div class="slds-truncate" title="Account Name"></div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate" title="Approach(1:Direct;2:CAPM)=	">
+                                                Approach(1:Direct;2:CAPM)=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{discrateApproach}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                1. Discount rate =
+                                            </div>
+                                        </th>
+                                        <td data-label="1. Discount rate ">
+                                            {discRate}&nbsp;%
+                                        </td>
+                                    </tr>
+
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                2a. Beta </div>
+                                        </th>
+                                        <td data-label="Beta">
+                                            <div class="slds-truncate">{beta}</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                b. Riskless rate=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{risklessRate}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                c. Market risk premium =
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{marketRiskPrem}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                d. Debt Ratio =
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{debtRatio}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent">
+                                        <th scope="row">
+                                            <div class="slds-truncate">
+                                                e. Cost of Borrowing =
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{costOfBorrowing}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+                                    <tr class="slds-hint-parent discountRateUsed">
+                                        <th scope="row">
+                                            <div class="slds-truncate ">
+                                                Discount rate used=
+                                            </div>
+                                        </th>
+                                        <td data-label="Account Name">
+                                            <div class="slds-truncate">{discRateUsed}&nbsp;%</div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+    <lightning-card>
+        <p class="title2">
+            &nbsp;&nbsp;<lightning-badge label="GROWTH RATES" class="slds-badge"></lightning-badge>
+            <!-- <b>GROWTH RATES</b> -->
+        </p>
+        &nbsp;
+        <div >
+            <table class="slds-table slds-table_fixed-layout slds-table_bordered"
+                aria-label="Example default base table of Opportunities">
+                <thead>
+                    <tr class="slds-text-title_caps" id="yrgbox">
+                        <th>
+                            Years
+                        </th>
+                        <template if:true={yearlyGrowth}>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate"><b>{yrg.Name}</b></div>
+                                </td>
+                            </template>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Revenues
+                        </th>
+                        <template for:each={yearlyGrowth} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <div class="slds-truncate">{yrg.Revenue}</div>
+                            </td>
+                        </template>
+                    </tr>
+                    <th>
+                        Fixed Expenses
+                    </th>
+                    <template for:each={yearlyGrowth} for:item="yrg">
+                        <td key={yrg.Id}>
+                            <div class="slds-truncate">{yrg.Revenue}</div>
+                        </td>
+                    </template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </lightning-card>
+
+    <lightning-card>
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-p-top_x-large slds-p-left_x-large slds-p-bottom_x-large">
+                            <div class="slds-box">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                                    aria-label="Example default base table of Opportunities">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="INITIAL INVESTMENT">INITIAL INVESTMENT
+                                                </div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    Investment
+                                                </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={InitialInv}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    - Tax Credit
+                                                </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={taxCreditAmnt}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    Net Investment </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={newInv}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    + Working Cap </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={IntInvinWC}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    + Opp. Cost </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={oppCost}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    + Other invest. </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={OtherInv}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    Initial Investment </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate">{currencyType} &nbsp;
+                                                    <lightning-formatted-number
+                                                        value={intInvamnt}></lightning-formatted-number>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+
+                <p class="title2">
+                    &nbsp;&nbsp;<lightning-badge label="SALVAGE VALUE" class="slds-badge"></lightning-badge>
+                    <!-- <b>SALVAGE VALUE</b> -->
+                </p>
+                &nbsp;
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered"
+                    aria-label="Example default base table of Opportunities">
+                    <!-- <thead>
+                        <tr class="slds-text-title_caps">
+                            <td>
+                                Years
+                            </td>
+                            <template if:true={yearlyGrowth}>
+                                <template for:each={yearlyGrowth} for:item="yrg">
+                                    <th key={yrg.Id}>
+                                        <div class="slds-truncate">{yrg.Name}</div>
+                                    </th>
+                                </template>
+                            </template>
+                        </tr>
+                    </thead> -->
+                    <tbody>
+                        <tr>
+                            <th>Equipment
+
+                            </th>
+
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div>{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.EquipmentSalvageValue}></lightning-formatted-number></div>
+                                </td>
+                            </template>
+
+                        </tr>
+                        <tr>
+                            <th>
+                                <b>Working Capital</b>
+                            </th>
+
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode}
+                                        &nbsp;<lightning-formatted-number
+                                            value={yrg.WorkingCapitalSalvageValue}></lightning-formatted-number></div>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+    <lightning-card>
+        <p class="title2">
+            &nbsp;&nbsp;<lightning-badge label="OPERATING CASHFLOWS" class="slds-badge"></lightning-badge>
+        </p>
+        &nbsp;
+        <div class="slds-box-1">
+            <table class="slds-table slds-table_fixed-layout slds-table_bordered"
+                aria-label="Example default base table of Opportunities">
+                <!-- <thead>
+                <tr class="slds-text-title_caps">
+                    <td>
+                        Years
+                    </td>
+                    <template if:true={yearlyGrowth}>
+                        <template for:each={yearlyGrowth} for:item="yrg">
+                            <th key={yrg.Id}>
+                                <div class="slds-truncate">{yrg.Name}</div>
+                            </th>
+                        </template>
+                    </template>
+                </tr>
+            </thead> -->
+                <thead>
+                    <tr class="slds-text-title_caps" id="yrgbox1">
+                        <th>
+                            Years
+                        </th>
+                        <template if:true={yearlyGrowth}>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate">{yrg.Name}</div>
+                                </td>
+                            </template>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Lifetime Index
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.LifetimeIndex}</div>
+                                </template>
+                                <div></div>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            Revenues
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.Revenues}></lightning-formatted-number></div>
+                                </template>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            -Var. Expenses
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.VariableExpenses}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.VariableExpenses}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            - Fixed Expenses
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.FixedExpensesCashflow}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.FixedExpensesCashflow}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            EBITDA
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.EBITDA}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.EBITDA}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            Depreciation
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.Depreciation}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.Depreciation}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            EBIT
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.EBIT}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.EBIT}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            -Tax
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.Tax}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.Tax}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            EBIT(1-t)
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.EBITWithoutTax}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.Depreciation}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            + Depreciation
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.Depreciation}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.EBITWithoutTax}</div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            - ∂ Work. Cap
+                        </th>
+                        <template for:each={yearlyGrowth1} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <template if:false={yrg.isYear0}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                            value={yrg.workingcap}></lightning-formatted-number></div>
+                                </template>
+                                <!-- <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number value={yrg.workingcap}></lightning-formatted-number></div> -->
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            NATCF
+                        </th>
+                        <template for:each={yearlyGrowth} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                        value={yrg.NATCF}></lightning-formatted-number></div>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            Discount Factor
+                        </th>
+                        <template for:each={yearlyGrowth} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                        value={yrg.DiscountFactor}></lightning-formatted-number></div>
+                            </td>
+                        </template>
+                    </tr>
+                    <tr>
+                        <th>
+                            Discounted CF
+                        </th>
+                        <template for:each={yearlyGrowth} for:item="yrg">
+                            <td key={yrg.Id}>
+                                <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                        value={yrg.discountedCf}></lightning-formatted-number></div>
+                            </td>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </lightning-card>
+    <lightning-card>
+        <div class="slds-grid slds-grid_vertical">
+            <div class="slds-col">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-p-top_x-large slds-p-left_x-large slds-p-bottom_x-large">
+                            <div class="slds-box">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                                    aria-label="Example default base table of Opportunities">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate" title="Investment Measures">Investment
+                                                    Measures
+                                                </div>
+                                            </th>
+                                            <th class="" scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    NPV
+                                                </div>
+                                            </th>
+                                            <td data-label="NPV">
+                                                <div class="slds-truncate">{currencyType}
+                                                    &nbsp;<lightning-formatted-number
+                                                        value={npv}></lightning-formatted-number></div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    IRR
+                                                </div>
+                                            </th>
+                                            <td data-label="IRR">
+                                                <div class="slds-truncate">{irr} &nbsp;%</div>
+                                            </td>
+                                        </tr>
+                                        <tr class="slds-hint-parent">
+                                            <th scope="row">
+                                                <div class="slds-truncate">
+                                                    ROC
+                                                </div>
+                                            </th>
+                                            <td data-label="ROC">
+                                                <div class="slds-truncate">{roc}&nbsp;%</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <p class="title2">
+                    &nbsp;&nbsp;<lightning-badge label="BOOK VALUE &amp; DEPRECIATION" class="slds-badge"></lightning-badge>
+                </p>
+                &nbsp;
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered"
+                    aria-label="Example default base table of Opportunities">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th>
+                                Years
+                            </th>
+                            <template if:true={yearlyGrowth}>
+                                <template for:each={yearlyGrowth} for:item="yrg">
+                                    <td key={yrg.Id}>
+                                        <div class="slds-truncate">{yrg.Name}</div>
+                                    </td>
+                                </template>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>
+                                Book Value (beginning)
+                            </th>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div>{yrg.CurrencyIsoCode} &nbsp;{yrg.BookValueBeginning}</div>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th>
+                                <b>Depreciation</b>
+                            </th>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.Depreciation}</div>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th>
+                                <b>BV(ending)</b>
+                            </th>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode}
+                                        &nbsp;{yrg.WorkingCapitalSalvageValue}</div>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-col">
+                &nbsp;
+                <p class="title2">
+                    &nbsp;&nbsp;<lightning-badge label="IP CALCULATION" class="slds-badge"></lightning-badge>
+                </p>
+                <br/>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col ">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-p-left_x-large slds-p-bottom_x-small">
+                                <div class="slds-box">
+                                    <b>IP FACTOR : {ipFactor}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col ">
+                        <div class="slds-grid slds-gutters">
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                    </div>
+                    <div class="slds-col">
+                        <span>3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <table class="slds-table slds-table_fixed-layout slds-table_bordered"
+                    aria-label="Example default base table of Opportunities">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <b> Revenues for product<br /> Year 1 to 5</b>
+                            </th>
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div>{yrg.CurrencyIsoCode} &nbsp;{yrg.BookValueBeginning}</div>
+                                </td>
+                            </template>
+                        </tr>
+                        <tr>
+                            <th>
+                                <b>Adjusted Revenues</b>
+                            </th>
+
+                            <template for:each={yearlyGrowth} for:item="yrg">
+                                <td key={yrg.Id}>
+                                    <div class="slds-truncate">{yrg.CurrencyIsoCode} &nbsp;{yrg.Depreciation}</div>
+                                </td>
+                            </template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+</template>

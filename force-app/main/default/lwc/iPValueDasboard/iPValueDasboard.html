@@ -1,0 +1,320 @@
+<template>
+    <lightning-card>
+        <div class="slds-m-around_x-small">
+            <h1 slot="title" style="color: #c00000;font-size: 22px; font-weight: bold" class="slds-text-align_center">
+                <!-- <a href={project.Id}>{project.Name}</a> -->
+                <lightning-button variant="base" label={project.Name} onclick={navigateToProjectPage}
+                    class="slds-m-left_x-small">
+                </lightning-button>
+
+            </h1>
+            <div class="slds-card slds-has-bottom-magnet">
+                <div slot="" style="background:#dfe6fb">
+                    <div class="slds-grid slds-grid_vertical">
+                        <div style="font-size: 22px; font-weight: bold">
+                            <div class="slds-col slds-text-align_center">
+                                 <h1>IP VALUE<lightning-helptext content="IP Value = (NPV from revenue adjusted by IP Factor) ~ 
+                                    (NPV from original revenue un-adjusted by IP Factor). This represents contribution of IP towards revenue enhancement"></lightning-helptext></h1>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-text-align_center">
+                            <div style="font-size: 22px; font-weight: bold; color: red">
+                                <p>{project.CurrencyIsoCode} &nbsp;
+                                    <lightning-formatted-number
+                                            value={project.IP_Valuation__c}></lightning-formatted-number></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-text-align_center ">
+                        <div style="font-size: 18px;  color: rgb(21, 113, 226)">
+                             <b>Patent Portfolio Index (PFI)</b><lightning-helptext content="PFI defines the overall strength of patents; PFI value of 1 (in the scale of 0 to 1) signifies most exclusive as well as valuable patent; PFI of a number of patents 
+                             constituting a particular technology is the Arithmetic Mean of individual patent PFI value"></lightning-helptext> = {portfolio.IP_Factor__c}; <b>Cash Flow Discount Rate
+                                =</b> {project.Discount_Rate_Used__c}% (Reliance norms)
+
+                        </div>
+                    </div>
+                    <div class="slds-col slds-text-align_center"
+                        style="font-size: 12px; font-weight: bold; color: rgb(9, 9, 9);font-style: italic">
+                        {project.Description__c}
+
+                    </div>
+                </div>
+            </div>
+            <div class="slds-card">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <div class="slds-box slds-p-top_none">
+                            <lightning-card>
+                                <h1 slot=""
+                                    style="color: #070707;font-size: 22px; font-weight: bold ;background:#dfe6fb"
+                                    class="slds-text-align_center">
+                                    IP Royalty <lightning-helptext content="IP Royalty = 4 to 5 % of IP value as per
+                                    chemical industry standard (for non exclusive license)"></lightning-helptext></h1>
+                                <div class="slds-card ">
+                                    <table
+                                        class="slds-table slds-table_cell-buffer slds-table_bordered slds-text-align_center ">
+                                        <thead class="slds-p-left_medium">
+                                            <tr>
+                                                <th>
+                                                    <div title="Royalty Rate">Royalty Rate(%)
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div title="Royalty max">Royalty Amount</div>
+                                                </th>
+                                                <th>
+                                                    <div title="Qty">Practice Rate</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={ipRoyalty} for:item="royal">
+                                                <tr key={royal.Id}>
+                                                    <td style="width: 14%;  font-size: 18px; font-weight: bold">
+                                                        {royal.Royalty_Ratio_Low__c} &nbsp;<b>to</b>&nbsp;
+                                                        {royal.Royalty_Ratio_High__c}</td>
+                                                    <td style="width: 14%;  font-size: 18px; font-weight: bold">
+                                                        {project.CurrencyIsoCode} &nbsp;<lightning-formatted-number
+                                                        value={royal.Royalty_Min_Amount__c}></lightning-formatted-number>
+                                                        &nbsp;<b>to</b>&nbsp;{project.CurrencyIsoCode}
+                                                        &nbsp;<lightning-formatted-number
+                                                        value={royal.Royalty_Max_Amount__c}></lightning-formatted-number>
+                                                    </td>
+                                                    <td style="width: 7%; margin-left: 5px;">
+                                                        {royal.Practice_Rate__c}
+
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </lightning-card>
+                            <p style="font-style: italic;font-weight:bold">This represents reasonable royalty
+                                (non-exclusive) paybale by RIL towards above patents
+                                as part of overall technology license fee
+                            </p>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+
+                        <div class="slds-box slds-p-top_none">
+                            <lightning-card>
+                                <h1 slot="" style="color: #080808;font-size: 22px; font-weight: bold;background:#dfe6fb"
+                                    class="slds-text-align_center slds-border_bottom">Portfolio Details</h1>
+
+                                <div class="slds-grid slds-grid_vertical">
+                                    <div class="slds-col">
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-text-align_right"
+                                                style="color: #c00000;font-size: 18px; font-weight: bold">
+                                                Portfolio Name &nbsp;
+                                            </div>
+                                            <div class="slds-col slds-text-align_left"
+                                                style="color: #0a00c0;font-size: 18px">
+                                                : {portfolio.Name}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-text-align_right"
+                                                style="color: #c00000;font-size: 18px; font-weight: bold">
+                                                Technology &nbsp;
+                                            </div>
+                                            <div class="slds-col slds-text-align_left"
+                                                style="color: #0a00c0;font-size: 18px">
+                                                : {project.Technology__c}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="slds-col">
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-text-align_right"
+                                                style="color: #c00000;font-size: 18px; font-weight: bold">
+                                                PFI &nbsp;
+                                            </div>
+                                            <div class="slds-col slds-text-align_left"
+                                                style="color: #0a00c0;font-size: 18px">
+                                                : {portfolio.IP_Factor__c}
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="slds-col">
+                                        <div class="slds-box">
+                                            <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                                                aria-labelledby="element-with-table-label other-element-with-table-label">
+                                                <thead>
+                                                    <tr class="slds-line-height_reset">
+                                                        <th class="" scope="col">
+                                                            <div class="slds-truncate slds-text-align_left"
+                                                                title="Patents">Patents
+                                                            </div>
+                                                        </th>
+                                                        <th class="" scope="col">
+                                                            <div class="slds-truncate slds-text-align_left"
+                                                                title="Royalty max">PFI</div>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template for:each={patents} for:item="pats">
+                                                        <tr key={pats.Id}>
+                                                            <td style="width: 14%; margin-left: 5px;">
+                                                                {pats.Name}
+
+                                                            </td>
+                                                            <td style="width: 14%; margin-left: 5px;">
+                                                                {pats.Patent_factor_Index__c}
+
+                                                            </td>
+
+
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-card>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="slds-border_bottom"></div>
+            <div class="slds-card">
+                <!-- <div class="slds-grid slds-grid_vertical">
+                    <div class="slds-col slds-border_bottom slds-border_top">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                <span>1</span>
+                            </div>
+                            <div class="slds-col  slds-size_11-of-12" style="background:#d8d8d8">
+                                <div class="slds-grid slds-grid_vertical">
+                                    <div class="slds-col">
+                                        <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                            <p>Patent Factor Index calculated for five patents of Basell on LDPE
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                            <p><b>A.</b> The PFI (Patent Factor Index) has been calculated for the 5
+                                                patents
+                                                as a single portfolio as they constitute a single technology
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                            <p><b>B.</b> PFI defines the overall strength of patents; PFI value of 1
+                                                (in
+                                                the scale of 0 to 1) signifies most exclusive as well as valuable
+                                                patent;
+                                                PFI of a number of patents constituting a particular technology is
+                                                the
+                                                Arithmetic Mean of individual patent PFI value
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-border_bottom">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                <p>2</p>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12">
+                                <div slot="" style="background:#d8d8d8">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                                <p><b>IP Value = (NPV from revenue adjusted by IP Factor) ~ (NPV
+                                                        from
+                                                        original revenue un-adjusted by IP Factor).</b> This
+                                                    represents
+                                                    contribution of IP towards revenue enhancement
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-border_bottom">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                <p>3</p>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12">
+                                <div slot="" style="background:#d8d8d8">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                                <p>IP Royalty = 4 to 5 % of IP value as per chemical industry
+                                                    standard (for non exclusive license)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-border_bottom">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                <p>4</p>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12">
+                                <div slot="" style="background:#d8d8d8">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div style="font-size: 12px; color: rgb(9, 9, 9)">
+                                                <p>Net Present Value (NPV) calculated for revenue from sales of LDPE
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                </div> -->
+
+                <ol class="slds-list_ordered" style="color: #c00000;font-size: 12px; font-weight: bold">
+                    <li>Patent Factor Index calculated for {total} patents of {portfolio.Name}</li>
+
+                    <ul class="slds-is-nested">
+                        <li>A. The PFI (Patent Factor Index) has been calculated for the {total} patents as a single
+                            portfolio as they constitute a single technology</li>
+                        <li>B. PFI defines the overall strength of patents; PFI value of 1 (in the scale of 0 to
+                            1) signifies most exclusive as well as valuable patent; PFI of a number of patents
+                            constituting a particular technology is the Arithmetic Mean of individual patent PFI
+                            value</li>
+                    </ul>
+                    <li>IP Value = (NPV from revenue adjusted by IP Factor) ~ (NPV from original revenue un-adjusted by
+                        IP Factor). This represents contribution of IP towards revenue enhancement
+                    </li>
+                    <li>IP Royalty = 4 to 5 % of IP value as per chemical industry standard (for non exclusive license)
+                    </li>
+                    <li>Net Present Value (NPV) calculated for revenue from sales of LDPE
+                    </li>
+
+                </ol>
+            </div>
+        </div>
+    </lightning-card>
+    {recordId}
+
+
+    
+
+</template>
